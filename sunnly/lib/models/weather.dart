@@ -8,7 +8,7 @@ enum WeatherType {
   clouds;
 
   factory WeatherType.fromString(String type) {
-    switch (type) {
+    switch (type.toLowerCase()) {
       case 'thunderstorm':
         return WeatherType.thunderstorm;
       case 'drizzle':
