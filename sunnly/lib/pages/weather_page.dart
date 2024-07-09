@@ -12,8 +12,7 @@ class WeatherPage extends StatefulWidget {
 
 class _WeatherPageState extends State<WeatherPage> {
   late Future<Weather> futureWeather;
-  final WeatherService weatherService =
-      const WeatherService(apiKey: "031c9411c3a3ee2e85a2c5ec0e5b8eae");
+  final WeatherService weatherService = const WeatherService(apiKey: "");
 
   @override
   void initState() {
