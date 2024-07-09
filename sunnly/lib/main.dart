@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sunnly/pages/weather_page.dart';
 
 void main() {
@@ -10,8 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: WeatherPage(),
+    return MaterialApp(
+      theme: ThemeData.light(useMaterial3: true)
+          .copyWith(textTheme: GoogleFonts.antonTextTheme()),
+      home: const WeatherPage(),
     );
   }
 }

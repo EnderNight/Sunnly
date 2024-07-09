@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sunnly/models/weather.dart';
 import 'package:sunnly/services/weather_service.dart';
 
@@ -21,6 +22,27 @@ class _WeatherPageState extends State<WeatherPage> {
     futureWeather = weatherService.fetchWeather();
   }
 
+  String getWeatherAsset(Weather weather) {
+    String path = "assets";
+
+    switch (weather.weatherType) {
+      case WeatherType.thunderstorm:
+        return "$path/thunderstorm.json";
+      case WeatherType.drizzle:
+        return "$path/drizzle.json";
+      case WeatherType.rain:
+        return "$path/rain.json";
+      case WeatherType.snow:
+        return "$path/snow.json";
+      case WeatherType.atmosphere:
+        return "$path/atmosphere.json";
+      case WeatherType.clouds:
+        return "$path/clouds.json";
+      case WeatherType.clear:
+        return "$path/clear.json";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +55,19 @@ class _WeatherPageState extends State<WeatherPage> {
               Weather weather = snapshot.data!;
               return Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(weather.cityName),
-                    Text("${weather.temperature.toStringAsFixed(1)}°C"),
+                    Text(weather.cityName,
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .apply(fontSizeFactor: 2.0)),
+                    Lottie.asset(getWeatherAsset(weather)),
+                    Text(
+                      "${weather.temperature.toStringAsFixed(1)}°C",
+                      style: DefaultTextStyle.of(context)
+                          .style
+                          .apply(fontSizeFactor: 2.0),
+                    ),
                   ],
                 ),
               );

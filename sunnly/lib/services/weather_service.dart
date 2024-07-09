@@ -47,7 +47,7 @@ class WeatherService {
     var (latitude, longitude) = await getPosition();
 
     Uri url = Uri.parse(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=$apiKey");
+        "$BASE_URL?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=$apiKey");
 
     final response = await http.get(url);
 
