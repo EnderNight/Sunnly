@@ -1,3 +1,3 @@
 # sunnly
 
-A new Flutter project.
+A simple weather app.
