@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sunnly/data/datasources/location/location_local_data_source.dart';
 import 'package:sunnly/data/datasources/location/location_remote_data_source.dart';
+import 'package:sunnly/data/datasources/weather/weather_local_data_source.dart';
 import 'package:sunnly/data/datasources/weather/weather_remote_data_source.dart';
 import 'package:sunnly/data/models/location_model.dart';
 import 'package:sunnly/data/models/weather_model.dart';
@@ -13,7 +14,7 @@ import 'package:uuid/uuid.dart';
 
 Future<void> main() async {
   // Hive
-  await Hive.initFlutter("sunnly");
+  await Hive.initFlutter("SunnlyLocalDatabases");
 
   Hive.registerAdapter(LocationModelAdapter());
   Hive.registerAdapter(WeatherModelAdapter());
@@ -24,9 +25,12 @@ Future<void> main() async {
   // Repositories
   final locactionRemoteDatasource = LocationRemoteDataSource();
   final locationLocalDatasource = LocationLocalDataSource(locationBox);
-  final weatherRemoteDatasource = WeatherRemoteDataSource();
 
-  final weatherRepo = IWeatherRepository(weatherRemoteDatasource);
+  final weatherRemoteDatasource = WeatherRemoteDataSource();
+  final weatherLocalDatasource = WeatherLocalDataSource(weatherBox);
+
+  final weatherRepo =
+      IWeatherRepository(weatherRemoteDatasource, weatherLocalDatasource);
   final locationRepo =
       ILocationRepository(locactionRemoteDatasource, locationLocalDatasource);
 
@@ -40,9 +44,4 @@ Future<void> main() async {
   getIt.registerSingleton(const Uuid());
   getIt.registerSingleton(getLocations);
   getIt.registerSingleton(getWeather);
-
-  // Tests
-  final jarze = await getLocations("jarze");
-
-  print(jarze);
 }

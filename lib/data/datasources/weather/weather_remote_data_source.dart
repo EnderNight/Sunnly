@@ -24,6 +24,6 @@ class WeatherRemoteDataSource {
     assert(response.statusCode == 200, "Error in weather request");
 
     return WeatherModel.fromJson(
-        jsonDecode(response.body) as Map, location, []);
+        jsonDecode(response.body) as Map, location.name, []);
   }
 }

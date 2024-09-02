@@ -1,20 +1,19 @@
 import 'package:sunnly/data/datasources/location/location_local_data_source.dart';
 import 'package:sunnly/data/datasources/location/location_remote_data_source.dart';
-import 'package:sunnly/data/models/location_model.dart';
 import 'package:sunnly/domain/entities/location.dart';
 import 'package:sunnly/domain/repositories/location_repository.dart';
 
 class ILocationRepository implements LocationRepository {
   final LocationRemoteDataSource remoteDataSource;
   final LocationLocalDataSource localDataSource;
-  int _cleanThreshold = 0;
 
   ILocationRepository(
     this.remoteDataSource,
     this.localDataSource,
   );
 
-  Future<void> _cleanLocations(List<LocationModel> locations) async {
+  Future<void> _cleanLocations() async {
+    final locations = await localDataSource.getLocations();
     final now = DateTime.now();
 
     for (final loc in locations) {
@@ -41,11 +40,7 @@ class ILocationRepository implements LocationRepository {
       await localDataSource.addLocation(model);
     }
 
-    if (await localDataSource.getLocationsAmount() > _cleanThreshold) {
-      _cleanLocations(await localDataSource.getLocations());
-
-      _cleanThreshold = await localDataSource.getLocationsAmount();
-    }
+    _cleanLocations();
 
     return models.map((model) => model.toEntity()).toList();
   }

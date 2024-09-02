@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:sunnly/data/models/location_model.dart';
+import 'package:sunnly/domain/entities/location.dart';
 import 'package:sunnly/domain/entities/weather.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,7 +15,7 @@ class WeatherModel {
   final DateTime recordTime;
 
   @HiveField(2)
-  final LocationModel location;
+  final String locationName;
 
   @HiveField(3)
   final int weatherId;
@@ -32,22 +32,22 @@ class WeatherModel {
   const WeatherModel({
     required this.id,
     required this.recordTime,
-    required this.location,
+    required this.locationName,
     required this.weatherId,
     required this.description,
     required this.temperature,
     required this.forecast,
   });
 
-  Weather toEntity() {
+  Weather toEntity(Location location) {
     return Weather(
       id: id,
       recordTime: recordTime,
       temperature: temperature,
       weatherType: _weatherIdToType(weatherId),
       description: description,
-      location: location.toEntity(),
-      forecast: forecast.map((ele) => ele.toEntity()).toList(),
+      location: location,
+      forecast: forecast.map((ele) => ele.toEntity(location)).toList(),
     );
   }
 
@@ -55,7 +55,7 @@ class WeatherModel {
     return WeatherModel(
       id: weather.id,
       recordTime: weather.recordTime,
-      location: LocationModel.fromEntity(weather.location),
+      locationName: weather.location.name,
       weatherId: _weatherTypeToId(weather.weatherType),
       description: weather.description,
       temperature: weather.temperature,
@@ -66,13 +66,13 @@ class WeatherModel {
 
   factory WeatherModel.fromJson(
     Map json,
-    LocationModel location,
+    String locationName,
     List<WeatherModel> forecast,
   ) {
     return WeatherModel(
       id: GetIt.I.get<Uuid>().v4(),
       recordTime: DateTime.now(),
-      location: location,
+      locationName: locationName,
       weatherId: json["weather"][0]["id"],
       description: json["weather"][0]["description"],
       temperature: json["main"]["temp"],
