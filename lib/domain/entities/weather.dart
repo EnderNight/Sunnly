@@ -1,4 +1,4 @@
-import 'package:sunnly/entities/location.dart';
+import 'package:sunnly/domain/entities/location.dart';
 
 enum WeatherType {
   thunderstrom,
