@@ -6,7 +6,7 @@ import 'package:sunnly/data/models/location_model.dart';
 import 'package:http/http.dart' as http;
 
 class LocationRemoteDataSource {
-  Future<List<LocationModel>> getLocation(String name) async {
+  Future<List<LocationModel>> getLocations(String name) async {
     final url = Uri.http(
       openWeatherMapAuthority,
       geocodingPath,
@@ -24,7 +24,7 @@ class LocationRemoteDataSource {
     final rawLocations = jsonDecode(response.body) as List;
 
     return rawLocations
-        .map((rawLoc) => LocationModel.fromJson(rawLoc))
+        .map((rawLoc) => LocationModel.fromJson(rawLoc, name))
         .toList();
   }
 }

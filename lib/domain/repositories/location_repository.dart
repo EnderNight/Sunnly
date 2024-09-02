@@ -1,5 +1,5 @@
 import 'package:sunnly/domain/entities/location.dart';
 
 abstract class LocationRepository {
-  Future<List<Location>> getLocation(String name);
+  Future<List<Location>> getLocations(String name);
 }
