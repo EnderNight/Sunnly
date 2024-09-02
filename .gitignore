@@ -44,3 +44,4 @@ app.*.map.json
 
 # Misc
 *.g.dart
+keys.dart

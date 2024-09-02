@@ -73,8 +73,8 @@ class WeatherModel {
       id: GetIt.I.get<Uuid>().v4(),
       recordTime: DateTime.now(),
       location: location,
-      weatherId: int.parse(json["weather"]["id"]),
-      description: json["weather"]["description"],
+      weatherId: json["weather"][0]["id"],
+      description: json["weather"][0]["description"],
       temperature: json["main"]["temp"],
       forecast: forecast,
     );

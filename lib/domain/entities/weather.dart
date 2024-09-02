@@ -29,4 +29,9 @@ class Weather {
     required this.location,
     required this.forecast,
   });
+
+  @override
+  String toString() {
+    return "Weather($temperature, $weatherType, $description, $recordTime)";
+  }
 }

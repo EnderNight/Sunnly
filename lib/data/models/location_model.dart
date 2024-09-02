@@ -19,11 +19,19 @@ class LocationModel {
   @HiveField(3)
   final String name;
 
+  @HiveField(4)
+  final String country;
+
+  @HiveField(5)
+  final String? state;
+
   const LocationModel({
     required this.id,
     required this.lat,
     required this.lon,
     required this.name,
+    required this.country,
+    required this.state,
   });
 
   Location toEntity() {
@@ -32,6 +40,8 @@ class LocationModel {
       lat: lat,
       lon: lon,
       name: name,
+      country: country,
+      state: state,
     );
   }
 
@@ -41,15 +51,19 @@ class LocationModel {
       lat: location.lat,
       lon: location.lon,
       name: location.name,
+      country: location.country,
+      state: location.state,
     );
   }
 
   factory LocationModel.fromJson(Map json) {
     return LocationModel(
       id: GetIt.I.get<Uuid>().v4(),
-      lat: double.parse(json[0]["lat"]),
-      lon: double.parse(json[0]["lon"]),
-      name: json[0]["name"],
+      lat: json["lat"],
+      lon: json["lon"],
+      name: json["name"],
+      country: json["country"],
+      state: json.containsKey("state") ? json["state"] : null,
     );
   }
 }

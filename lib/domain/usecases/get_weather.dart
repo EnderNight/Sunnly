@@ -1,3 +1,4 @@
+import 'package:sunnly/domain/entities/location.dart';
 import 'package:sunnly/domain/entities/weather.dart';
 import 'package:sunnly/domain/repositories/weather_repository.dart';
 
@@ -6,7 +7,7 @@ class GetWeather {
 
   const GetWeather(this.repository);
 
-  Future<Weather> call(double lat, double lon) async {
-    return await repository.getWeather(lat, lon);
+  Future<Weather> call(Location location) async {
+    return await repository.getWeather(location);
   }
 }
